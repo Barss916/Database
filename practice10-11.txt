@@ -1,0 +1,75 @@
+-- 1
+-- Нарушение 1НФ из-за того, что в начальной таблице team_members может дальше делиться.
+
+CREATE TABLE IF NOT EXISTS Projects (
+project_id SERIAL PRIMARY KEY,
+project_name VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS Employeers (
+employee_id SERIAL PRIMARY KEY,
+surname VARCHAR(100),
+name VARCHAR(100),
+last_name VARCHAR
+);
+
+CREATE TABLE IF NOT EXISTS Project_participants (
+project_id INT,
+employee_id INT,
+FOREIGN KEY (project_id) REFERENCES Projects(project_id),
+FOREIGN KEY (employee_id) REFERENCES Employeers(employee_id),
+PRIMARY KEY (project_id, employee_id)
+);
+
+-- 2
+
+CREATE TABLE IF NOT EXISTS Clients (
+client_id SERIAL PRIMARY KEY,
+client_email VARCHAR(255),
+surname VARCHAR(100),
+name VARCHAR(100),
+last_name VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS Equipment (
+equipment_id SERIAL PRIMARY KEY,
+equipment_name VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS Occupancy (
+equipment_id INT,
+client_id INT,
+FOREIGN KEY (equipment_id) REFERENCES Equipment(equipment_id),
+FOREIGN KEY (client_id) REFERENCES Clients(client_id),
+PRIMARY KEY (client_id, equipment_id)
+);
+
+-- 3
+
+CREATE TABLE IF NOT EXISTS Students (
+student_id SERIAL PRIMARY KEY,
+surname VARCHAR(100),
+name VARCHAR(100),
+last_name VARCHAR
+);
+
+CREATE TABLE IF NOT EXISTS Courses (
+course_id SERIAL PRIMARY KEY,
+course_name VARCHAR(255),
+course_professor VARCHAR(100)
+);
+
+CREATE TABLE 
+
+CREATE TABLE IF NOT EXISTS Grades (
+course_id INT,
+student_id INT,
+);
+
+CREATE TABLE IF NOT EXISTS Occupancy (
+equipment_id INT,
+client_id INT,
+FOREIGN KEY (equipment_id) REFERENCES Equipment(equipment_id),
+FOREIGN KEY (client_id) REFERENCES Clients(client_id),
+PRIMARY KEY (client_id, equipment_id)
+);
