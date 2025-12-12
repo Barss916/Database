@@ -59,17 +59,71 @@ course_name VARCHAR(255),
 course_professor VARCHAR(100)
 );
 
-CREATE TABLE 
-
-CREATE TABLE IF NOT EXISTS Grades (
-course_id INT,
-student_id INT,
+CREATE TABLE IF NOT EXISTS Tasks (
+task_id SERIAL PRIMARY KEY,
+task_name VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS Occupancy (
-equipment_id INT,
-client_id INT,
-FOREIGN KEY (equipment_id) REFERENCES Equipment(equipment_id),
-FOREIGN KEY (client_id) REFERENCES Clients(client_id),
-PRIMARY KEY (client_id, equipment_id)
+CREATE TABLE IF NOT EXISTS Grades (
+student_id INT,
+task_id INT,
+grade INT,
+FOREIGN KEY (student_id) REFERENCES Students(student_id),
+FOREIGN KEY (task_id) REFERENCES Tasks(task_id),
+PRIMARY KEY (student_id, task_id)
+);
+
+--------------------------------------------------------------------
+
+-- 1
+CREATE TABLE IF NOT EXISTS Publisher (
+publisher_id SERIAL PRIMARY KEY,
+publisher_name VARCHAR(255),
+publisher_city VARCHAR(100)     
+);
+
+CREATE TABLE IF NOT EXISTS Books (
+book_id INT PRIMARY KEY,
+title VARCHAR(255),
+author_name VARCHAR(255),
+publisher_id INT,
+FOREIGN KEY (publisher_id) REFERENCES Publisher(publisher_id)	
+);
+
+-- 2
+CREATE TABLE IF NOT EXISTS Car (
+car_model VARCHAR(100) PRIMARY KEY,      
+car_manufacturer VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS RaceResults (
+race_id INT,
+driver_id INT,
+car_model VARCHAR(100),      -- Модель автомобиля
+finish_time TIME,
+FOREIGN KEY (car_model) REFERENCES Car(car_model),
+PRIMARY KEY (race_id, driver_id)
+);
+
+-- 3
+CREATE TABLE IF NOT EXISTS EventsName (
+event_name VARCHAR(100) PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS Events (
+event_type VARCHAR(50),
+event_name VARCHAR(100),
+room_name VARCHAR(100),
+FOREIGN KEY (event_name) REFERENCES EventsName(event_name),
+PRIMARY KEY (event_type, room_name)
+);
+
+CREATE TABLE IF NOT EXISTS RoomBookings (
+booking_time TIMESTAMP,
+room_name VARCHAR(100),
+event_name VARCHAR(255),
+event_type VARCHAR(50),
+FOREIGN KEY (event_type, room_name) REFERENCES Events(event_type, room_name),
+FOREIGN KEY (event_name) REFERENCES EventsName(event_name),
+PRIMARY KEY (booking_time, room_name)
 );
