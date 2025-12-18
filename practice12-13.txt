@@ -1,3 +1,5 @@
+-- PRACTICE 12
+
 BEGIN;
 
 UPDATE products SET quantity = quantity - 5 WHERE product_id = 1; 
@@ -30,5 +32,25 @@ SELECT * FROM products p LEFT JOIN order_history oh ON oh.product_id = p.product
 BEGIN;
 
 UPDATE products SET quantity = quantity - 10 WHERE product_id = 2;
+
+COMMIT;
+
+------------------------------------------------------------------------------------------------------------------------
+
+-- PRACTICE 13
+
+BEGIN;
+
+UPDATE accounts SET balance = balance - 500 WHERE id = 1;
+
+BEGIN;
+
+UPDATE accounts SET balance = balance - 300 WHERE id = 2;
+
+UPDATE accounts SET balance = balance + 300 WHERE id = 1;
+
+COMMIT;
+
+UPDATE accounts SET balance = balance + 500 WHERE id = 2;
 
 COMMIT;
