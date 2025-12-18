@@ -1,0 +1,34 @@
+BEGIN;
+
+UPDATE products SET quantity = quantity - 5 WHERE product_id = 1; 
+INSERT INTO order_history(product_id, quantity_changed, notes) VALUES (1, -5, 'quantity changed = -5');
+
+COMMIT;
+
+SELECT * FROM products p LEFT JOIN order_history oh ON oh.product_id = p.product_id;
+
+BEGIN;
+
+UPDATE products SET quantity = quantity - 100 WHERE product_id = 2;
+ROLLBACK;
+INSERT INTO order_history(product_id, quantity_changed, notes) VALUES (2, -100, 'quantity changed = -100');
+
+COMMIT;
+
+SELECT * FROM products p LEFT JOIN order_history oh ON oh.product_id = p.product_id;
+
+BEGIN;
+
+UPDATE products SET quantity = quantity - 2 WHERE product_id = 2;
+ROLLBACK;
+INSERT INTO order_history(product_id, quantity_changed, notes) VALUES (2, -100, 'quantity changed = -100');
+
+COMMIT;
+
+SELECT * FROM products p LEFT JOIN order_history oh ON oh.product_id = p.product_id;
+
+BEGIN;
+
+UPDATE products SET quantity = quantity - 10 WHERE product_id = 2;
+
+COMMIT;
