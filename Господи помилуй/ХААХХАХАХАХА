@@ -1,0 +1,75 @@
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
+-- Везде добавил s'ки
+
+CREATE TABLE Users(
+user_id SERIAL PRIMARY KEY,
+username VARCHAR(255),
+email VARCHAR(255) UNIQUE,
+password VARCHAR(50)
+);
+
+-- Удалил email
+CREATE TABLE Profiles(
+profile_id SERIAL PRIMARY KEY,
+last_name VARCHAR(100),
+name VARCHAR(100),
+surname VARCHAR(100),
+birth_date DATE,
+phone VARCHAR(11) UNIQUE,
+role VARCHAR(15) CHECK (role IN ('student', 'teacher')),
+user_id INTEGER UNIQUE,
+FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+CREATE TABLE Groups(
+group_id SERIAL PRIMARY KEY,
+title VARCHAR(15)
+);
+
+-- Поменял связь 1:М
+CREATE TABLE GroupParticipants(
+group_id INTEGER,
+profile_id INTEGER,
+PRIMARY KEY (group_id, profile_id),
+FOREIGN KEY (group_id) REFERENCES Groups(group_id),
+FOREIGN KEY (profile_id) REFERENCES Profiles(profile_id)
+);
+-- Связь к User
+CREATE TABLE Courses(
+course_id SERIAL PRIMARY KEY,
+title VARCHAR(255),
+description TEXT,
+owner INTEGER,
+FOREIGN KEY (owner) REFERENCES Users(user_id)
+);
+
+CREATE TABLE CourseParticipants(
+course_id INTEGER,
+group_id INTEGER,
+FOREIGN KEY (course_id) REFERENCES Courses(course_id),
+FOREIGN KEY (group_id) REFERENCES Groups(group_id),
+PRIMARY KEY (course_id, group_id)
+);
+
+-- Переименовал course в course_id
+CREATE TABLE Lessons(
+lesson_id SERIAL PRIMARY KEY,
+title VARCHAR(255),
+description TEXT,
+start_date TIME,
+expire_date TIME,
+course_id INTEGER,
+FOREIGN KEY (course_id) REFERENCES Courses(course_id)
+);
+
+-- Переименовал date в notification_date
+CREATE TABLE Notifications(
+notification_id SERIAL PRIMARY KEY,
+title VARCHAR(255),
+description TEXT,
+notification_date DATE,
+group_id INTEGER,
+FOREIGN KEY (group_id) REFERENCES Groups(group_id)
+);
