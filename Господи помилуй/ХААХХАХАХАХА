@@ -2,6 +2,7 @@ DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 
 -- Везде добавил s'ки
+-- Везде поменял group на student_group
 
 CREATE TABLE Users(
 user_id SERIAL PRIMARY KEY,
@@ -18,12 +19,12 @@ name VARCHAR(100),
 surname VARCHAR(100),
 birth_date DATE,
 phone VARCHAR(11) UNIQUE,
-group INTEGER,
+student_group INTEGER,
 user_id INTEGER UNIQUE,
 FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
-CREATE TABLE ProfilesTeacher(
+CREATE TABLE ProfileTeacher(
 profile_id SERIAL PRIMARY KEY,
 last_name VARCHAR(100),
 name VARCHAR(100),
@@ -38,16 +39,16 @@ CREATE TABLE Courses(
 course_id SERIAL PRIMARY KEY,
 title VARCHAR(255),
 description TEXT,
-owner INTEGER,
-FOREIGN KEY (owner) REFERENCES ProfileTeacher(profile_id)
+course_owner INTEGER,
+FOREIGN KEY (course_owner) REFERENCES ProfileTeacher(profile_id)
 );
 
 CREATE TABLE CourseParticipants(
 course_id INTEGER,
-group INTEGER,
+student_group INTEGER,
 FOREIGN KEY (course_id) REFERENCES Courses(course_id),
-FOREIGN KEY (group) REFERENCES ProfileStudent(group),
-PRIMARY KEY (course_id, group)
+FOREIGN KEY (student_group) REFERENCES ProfileStudent(student_group),
+PRIMARY KEY (course_id, student_group)
 );
 
 -- Переименовал course в course_id
@@ -67,8 +68,8 @@ notification_id SERIAL PRIMARY KEY,
 title VARCHAR(255),
 description TEXT,
 notification_date DATE,
-group INTEGER,
-FOREIGN KEY (group) REFERENCES ProfileStudent(group)
+student_group INTEGER,
+FOREIGN KEY (student_group) REFERENCES ProfileStudent(student_group)
 );
 
 CREATE TABLE Grades(
