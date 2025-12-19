@@ -19,7 +19,7 @@ name VARCHAR(100),
 surname VARCHAR(100),
 birth_date DATE,
 phone VARCHAR(11) UNIQUE,
-student_group INTEGER,
+student_group VARCHAR(15),
 user_id INTEGER UNIQUE,
 FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
@@ -45,10 +45,10 @@ FOREIGN KEY (course_owner) REFERENCES ProfileTeacher(profile_id)
 
 CREATE TABLE CourseParticipants(
 course_id INTEGER,
-student_group INTEGER,
+profile_id INTEGER,
 FOREIGN KEY (course_id) REFERENCES Courses(course_id),
-FOREIGN KEY (student_group) REFERENCES ProfileStudent(student_group),
-PRIMARY KEY (course_id, student_group)
+FOREIGN KEY (profile_id) REFERENCES ProfileStudent(profile_id),
+PRIMARY KEY (course_id, profile_id)
 );
 
 -- Переименовал course в course_id
@@ -68,8 +68,8 @@ notification_id SERIAL PRIMARY KEY,
 title VARCHAR(255),
 description TEXT,
 notification_date DATE,
-student_group INTEGER,
-FOREIGN KEY (student_group) REFERENCES ProfileStudent(student_group)
+profile_id INTEGER,
+FOREIGN KEY (profile_id) REFERENCES ProfileStudent(profile_id)
 );
 
 CREATE TABLE Grades(
