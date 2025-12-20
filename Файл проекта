@@ -341,19 +341,23 @@ INSERT INTO Grades (profile_id, course_id, grade) VALUES
 (33, 19, 90), (34, 19, 85), (35, 19, 95), (36, 19, 80),
 (37, 20, 87), (38, 20, 92), (39, 20, 76), (40, 20, 89);
 
+
+-- Учителя и их предметы
 SELECT pt.last_name, pt.name, pt.surname,
 JSON_AGG(
 	JSON_BUILD_OBJECT(
 			'Предмет', l.title
 		)
-) 
+)
 FROM ProfileTeacher pt
 LEFT JOIN Courses c ON pt.profile_id = c.course_owner
 LEFT JOIN Lessons l ON c.course_id = l.course_id
 GROUP BY pt.last_name, pt.name, pt.surname;
 
+-- Выбор студентов с датой рождения текущего месяца
 SELECT * FROM profilestudent WHERE (EXTRACT(MONTH FROM birth_date)) IN (SELECT EXTRACT(MONTH FROM CURRENT_DATE));
 
+-- Выбор топ-5 учеников по оценкам
 SELECT
     ps.profile_id,
     ps.last_name,
